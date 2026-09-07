@@ -4,24 +4,30 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "dev": "tsx watch ./src/server.ts"
+    "dev": "tsx watch ./src/server.ts",
+    "migrate": "node-pg-migrate"
   },
   "keywords": [],
   "type": "module",
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.6",
     "@types/node": "^26.4.0",
+    "@types/node-pg-migrate": "^2.3.1",
     "@types/pg": "^8.23.1",
     "typescript": "^7.0.2"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "node-pg-migrate": "^9.0.0",
     "pg": "^8.23.0",
     "tsx": "^4.23.13"
   },
   "allowScripts": {
-    "esbuild@0.28.2": true
+    "esbuild@0.28.2": true,
+    "bcrypt@6.0.0": true
   }
 }
