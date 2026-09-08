@@ -13,15 +13,19 @@
     "@types/bcrypt": "^6.0.0",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^26.4.0",
     "@types/node-pg-migrate": "^2.3.1",
     "@types/pg": "^8.23.1",
     "typescript": "^7.0.2"
   },
   "dependencies": {
+    "@types/express-validator": "^2.20.33",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "jsonwebtoken": "^9.0.3",
     "node-pg-migrate": "^9.0.0",
     "pg": "^8.23.0",
     "tsx": "^4.23.13"
