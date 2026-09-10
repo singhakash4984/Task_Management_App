@@ -1,10 +1,10 @@
 import express, { Response, Request } from "express" ;
-import healthRouter from "./routes/health.route"
-import userRouter from "./routes/user.route";
-import authRouter from "./routes/auth.route";
+import cookieParser from "cookie-parser";
+import userRouter from "./modules/user/user.routes";
+import authRouter from "./modules/auth/auth.routes";
 export const app = express() ;
 app.use(express.json()) ;
-app.use('/api/v1',healthRouter) ;
+app.use(cookieParser()) ;
 app.use('/api/v1',userRouter) ;
 app.use('/api/v1',authRouter) ;
 export default app ;

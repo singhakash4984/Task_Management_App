@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 
 export const findUser = async (email:string) =>{
  const result = await pool.query(`
-    SELECT id , email FROM users WHERE email = $1` , [email])
+    SELECT * FROM users WHERE email = LOWER($1)` , [email])
     return result.rows[0] ;
 }
 
