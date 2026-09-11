@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import {findUser} from "../user/user.service" ;
-import {User} from "../../types/user.types"
+import {User} from "../../types/user"
 import bcrypt from "bcrypt" ;
 import jwt from "jsonwebtoken" ;
 
