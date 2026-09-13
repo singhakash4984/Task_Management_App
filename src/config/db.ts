@@ -1,6 +1,7 @@
 // db.ts
 import dotenv from "dotenv";
-import { Pool, QueryResult, QueryResultRow } from "pg";
+import { Pool } from "pg";
+import type { QueryResult } from "pg";
 dotenv.config();
 
 const connectionString = process.env.DATABASE_URL;
@@ -38,11 +39,14 @@ export async function getUser(id: number): Promise<UserRow | undefined> {
   try {
     const result: QueryResult<UserRow> = await pool.query<UserRow>(
       "SELECT id, name, email FROM users WHERE id = $1",
-      [id]
+      [id],
     );
     return result.rows[0];
   } catch (err) {
-    console.error("[db] getUser query failed:", { id, error: (err as Error).message });
+    console.error("[db] getUser query failed:", {
+      id,
+      error: (err as Error).message,
+    });
     throw err;
   }
 }

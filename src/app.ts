@@ -1,4 +1,4 @@
-import express, { Response, Request } from "express" ;
+import express from "express" ;
 import cookieParser from "cookie-parser";
 import userRouter from "./modules/user/user.routes";
 import authRouter from "./modules/auth/auth.routes";

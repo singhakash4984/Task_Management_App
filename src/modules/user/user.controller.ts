@@ -1,4 +1,4 @@
-import { Request , Response , NextFunction } from "express"
+import type { Request , Response , NextFunction } from "express"
 import { findUser, registerUser } from "./user.service";
 
 export const register = async( req:Request, res:Response, next:NextFunction) =>{

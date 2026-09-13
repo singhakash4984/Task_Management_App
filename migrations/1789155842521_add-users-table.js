@@ -12,25 +12,24 @@ export const up = (pgm) => {
 
     pgm.createExtension('pgcrypto',{
         ifNotExists:true
-    }) ,
+    }) ;
 
     pgm.createExtension('citext',{
         ifNotExists:true
-    })
+    }) ;
 
     pgm.createTable('users',{
         id:{
             type:'uuid',
             primaryKey:true ,
             default:pgm.func('gen_random_uuid()')
-
         },
         email:{
             type: 'citext',
             unique:true ,
             notNull:true
         },
-        password:{
+        password_hash:{
             type:'text',
             notNull:true
         },
@@ -38,7 +37,16 @@ export const up = (pgm) => {
             type:'timestamptz' ,
             notNull:true ,
             default:pgm.func('now()')
+        },
+        role:{
+            type:'text',
+            notNull:true,
+            default:'client'
         }
+    })
+
+    pgm.addConstraint('users','users_role_cjeck',{
+        check: "role IN ('client','admin')",
     })
 };
 

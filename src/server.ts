@@ -8,10 +8,6 @@ app.get("/api/users/:id", async (req, res) => {
     if (!user) return res.status(404).json({ error: "User not found" });
     res.json(user);
   } catch (err) {
-    // getUser throws both for "invalid id" and "query failed" —
-    // at this level, both collapse to a generic error response.
-    // A real distinction between 400 vs 500 requires a controller layer,
-    // which you're intentionally not adding yet.
     console.error(err);
     res.status(500).json({ error: "Something went wrong" });
   }
