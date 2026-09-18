@@ -1,66 +1,19 @@
-import type { Request, Response, NextFunction } from "express";
-import { findUser } from "../user/user.service";
-import type { User } from "../../types/user";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import  type { Request, Response, NextFunction } from "express"
+import { register } from "./auth.service";
 
-export const userLogin = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const { email, password } = req.body as { email: string; password: string };
-    const user: User = await findUser(email);
-    if (!user || !(await bcrypt.compare(password, user.password_hash))) {
-      return res.status(400).json({ message: "Invalid credentials" });
-    }
 
-    const accessToken = jwt.sign(
-      { id: user.id, role: user.role },
-      process.env.ACCESS_JWT_SECRET!,
-      { expiresIn: "15m" },
-    );
-    const refreshToken = jwt.sign(
-      { id: user.id, role: user.role },
-      process.env.REFRESH_JWT_SECRET!,
-      { expiresIn: "7d" },
-    );
-
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
-    return res.status(200).json({
-      message: "user logged in successfully !!!",
-      token: accessToken,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const refresh = (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const refreshToken = req.cookies?.refreshToken;
-    if (!refreshToken) {
-      res.status(401).json({ message: "No refresh token provided !" });
-    }
-    const payload = jwt.verify(
-      refreshToken,
-      process.env.REFRESH_JWT_SECRET!,
-    ) as { id: string; role: string };
-    const newAccessToken = jwt.sign(
-      { id: payload.id, role: payload.role },
-      process.env.ACCESS_JWT_SECRET!,
-      { expiresIn: "15m" },
-    );
-
-    return res.status(200).json({ token: newAccessToken });
-  } catch (error) {
-    res.status(401).json({ message: "invalid or expiredrefresh token !!" });
-  }
-};
+export const registerController = async (req:Request, res:Response, next:NextFunction) =>{
+try {
+  const {email,password} = req.body ;
+  const user = await register(email,password) ;
+  return res.status(201).json({
+    message:"User registered successfully",
+    user
+  })
+} catch (error) {
+  return res.status(400).json({
+    message:(error as Error).message
+  })
+}
+ 
+}

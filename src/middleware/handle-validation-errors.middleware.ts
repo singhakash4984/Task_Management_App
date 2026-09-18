@@ -1,14 +1,23 @@
 import type { Request, Response, NextFunction } from "express";
-import { validationResult } from "express-validator";
+import { ZodType } from "zod";
 
-export const handle_Validation_Errors = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ error: errors.array() });
-  }
-  next();
-};
+export const validate =
+(schema:ZodType) => 
+(req:Request, res:Response, next:NextFunction) =>{
+    const result = schema.safeParse(req.body) ;
+
+   if(!result.success){
+    const errors = result.error.issues.map((issue) => ({
+        field: issue.path.join("."),
+        message: issue.message
+    }
+))
+    return res.status(400).json({
+        message:"Validation failed",
+        errors
+    })
+}
+
+    req.body = result.data ;
+    next()
+}

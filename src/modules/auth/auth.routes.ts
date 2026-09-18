@@ -1,11 +1,13 @@
 import { Router } from "express";
-import loginValidator from "./validators/auth.validation";
-import { handle_Validation_Errors } from "../../middleware/handle-validation-errors.middleware";
-import { userLogin } from "./auth.controller";
-import { refresh } from "./auth.controller";
-const authRouter = Router();
+import { validate } from "../../middleware/handle-validation-errors.middleware";
+import { registerSchema } from "./auth.schema";
+import { registerController } from "./auth.controller";
 
-authRouter.post("/login", loginValidator, handle_Validation_Errors, userLogin);
-authRouter.post("/refresh", refresh);
+const authRouter = Router() ;
 
-export default authRouter;
+// unauthenticated routes 
+
+authRouter.post('/register',validate(registerSchema),registerController)
+
+export default authRouter ;
+
